@@ -54,8 +54,37 @@ function formatDraftTime(updated: number) {
   return Number.isNaN(new Date(updated).getTime()) ? '时间未知' : draftTime.format(updated);
 }
 
+/**
+ * 生成 UUID。
+ *
+ * `crypto.randomUUID()` 只在安全上下文（HTTPS 或 localhost）可用。
+ * 用 `http://IP` 访问部署好的站点时它是 `undefined`，直接调用会抛 TypeError，
+ * 而 `createDraft()` 在 useState 初始化阶段就会执行，导致整个编辑器挂载失败。
+ *
+ * `crypto.getRandomValues()` 不受安全上下文限制，所以用它兜底生成 v4 UUID。
+ */
+function randomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  const bytes = new Uint8Array(16);
+  if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+    crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+  }
+
+  // RFC 4122 version 4 + variant
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
 function createDraft(source = createEditorSource(), filename?: string, importedFrom?: string): EditorDraft {
-  return { id: crypto.randomUUID(), title: documentTitle(source), source, updated: Date.now(), filename, importedFrom };
+  return { id: randomId(), title: documentTitle(source), source, updated: Date.now(), filename, importedFrom };
 }
 
 export default function Editor({ ogEndpoint = '/api/editor/og', colophon = [] }: Props) {
@@ -402,7 +431,7 @@ export default function Editor({ ogEndpoint = '/api/editor/og', colophon = [] }:
   const saveCMS = () => {
     if (!cms || pendingSave.current) return;
     const { id: draftId, source } = current.current;
-    const requestId = crypto.randomUUID();
+    const requestId = randomId();
     pendingSave.current = { requestId, draftId, postId: cms.postId, source };
     setSaving(true);
     setStatus('正在保存到博客…');

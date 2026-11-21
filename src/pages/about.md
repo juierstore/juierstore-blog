@@ -8,28 +8,17 @@ description: "关于我？"
 
 ## 你好，这里是juierstore
 
-[![github badge](https://img.shields.io/badge/dynamic/json?color=blue&label=Github&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dgithub%26queryKey%3Dyusixian)](https://github.com/juierstore)
+[![github badge](https://img.shields.io/badge/dynamic/json?color=blue&label=Github&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dgithub%26queryKey%3Djuierstore)](https://github.com/juierstore)
 
+>  电子专业学生，不想限于硬件的创造，在网络空间也想进行一番探索
 
+>在一年多以前也进行过网站的搭建，从头开始自己敲html试图搭建一个静态网页，但是能力和毅力不够（很丑），制作出一个外观框架就放弃了，后续在云服务器上部署了开源的MQTT服务器才算没有完全荒废。
 
+>今年ai大爆发，agnet能力提升了很多，让我有底气再次涉足网页开发
 
-> 我们 都只是无名之辈 \
-> 做你自己最喜欢的事 \
-> 像花一样 肆意绽放 \
-> 不去管 有没有人欣赏
+>于是就有了这个网站
 
-<!--
-### 找到我
+>非常感谢cosine大佬开源了astro-koharu这套网页框架，这套框架非常好看，而且动效也很有意思，我按照协议的要求也将源码放在了自己的仓库中
 
-个人 Telegram 前端频道：日常碎碎念，偶尔掉落优质前端博文推荐、学习资源等
+>如果我有什么不妥的欢迎指正 ++email：juierstore@qq.com++{.wavy}!!不过这地方应该也不会有人来罢!!{.blur}
 
-https://t.me/cosine_front_end
-
-Gitbook 前端学习记录
-
-https://book.cosine.ren/
-
-[![GitHub State](https://git-stats.cosine.ren/api?username=yusixian&theme=dark&show_icons=true&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
-
-[![GitHub Streak](https://github-readme-streak-stats-rust-tau.vercel.app?user=yusixian&theme=dark&date_format=%5BY%20%5DM%20&hide_border=true)](https://git.io/streak-stats)
--->

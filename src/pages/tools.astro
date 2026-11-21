@@ -28,8 +28,17 @@ const description = t(locale, 'tools.intro');
 // 站内工具的文件放在 public/tools/<目录名>/index.html，
 // 构建后自动出现在 /tools/<目录名>/ 这个地址上。
 // 想加一个自己的工具，复制下面这行改内容，再把工具文件放进对应目录即可。
+//
+// 例外：反代类工具不走 public/，由 nginx 转发，href 直接写它的路径前缀。
+// 例如 Prompt Magic 由 /prompt-magic/ 反代到本机的 8765 端口。
 // -----------------------------------------------------------------------------
 const tools = [
+  {
+    name: 'Prompt Magic',
+    desc: '双语 AI 绘画提示词工作台：提示词模板、中英对照、标签库与模型配置。',
+    href: '/prompt-magic/',
+    icon: 'ri:magic-fill',
+  },
   {
     name: '待办清单',
     desc: '一个示例工具，数据存在浏览器本地。可以照它的样子做你自己的。',

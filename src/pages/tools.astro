@@ -1,0 +1,90 @@
+---
+import HomeSider from '@components/layout/HomeSider.astro';
+import Cover from '@components/ui/cover/Cover.astro';
+import { siteConfig } from '@constants/site-config';
+import Layout from '@layouts/Layout.astro';
+import TwoColumnLayout from '@layouts/TwoColumnLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { defaultLocale, t } from '@/i18n';
+
+interface Props {
+  locale?: string;
+}
+
+// Root pages render the default locale; `[lang]/` mirrors pass their locale in explicitly.
+const { locale = defaultLocale } = Astro.props;
+const title = `${t(locale, 'tools.title')} | ${siteConfig.title}`;
+const description = t(locale, 'tools.intro');
+
+// =============================================================================
+// 工具列表 —— 加工具改这里
+// =============================================================================
+// 每个工具是一个对象：
+//   name  名称
+//   desc  一句话说明
+//   href  链接。站内工具写 /tools/<目录名>/，也可以写外链
+//   icon  图标名，只能用 ri: / fa6-solid: / fa6-regular: / gg: 这四套
+//
+// 站内工具的文件放在 public/tools/<目录名>/index.html，
+// 构建后自动出现在 /tools/<目录名>/ 这个地址上。
+// 想加一个自己的工具，复制下面这行改内容，再把工具文件放进对应目录即可。
+// -----------------------------------------------------------------------------
+const tools = [
+  {
+    name: '待办清单',
+    desc: '一个示例工具，数据存在浏览器本地。可以照它的样子做你自己的。',
+    href: '/tools/demo/',
+    icon: 'ri:checkbox-circle-fill',
+  },
+  // {
+  //   name: '你的工具名',
+  //   desc: '一句话说明这个工具做什么',
+  //   href: '/tools/your-tool/',
+  //   icon: 'ri:tools-fill',
+  // },
+];
+
+const count = tools.length;
+---
+
+<Layout locale={locale} title={title} description={description}>
+  <TwoColumnLayout>
+    <Cover slot="cover" title={t(locale, 'tools.title')} compact />
+    <HomeSider slot="sider" />
+
+    <div class="space-y-5">
+      <p class="text-muted-foreground text-sm">{t(locale, 'tools.intro')}</p>
+
+      {
+        count > 0 ? (
+          <div class="grid gap-3 sm:grid-cols-2">
+            {tools.map((tool) => (
+              <a
+                href={tool.href}
+                class="bg-card border-border hover:border-primary/60 group flex items-start gap-3 rounded-2xl border p-4 transition-colors"
+              >
+                <span class="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-xl">
+                  <Icon name={tool.icon} class="size-5" />
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="text-foreground block font-medium">{tool.name}</span>
+                  <span class="text-muted-foreground mt-1 block text-sm leading-relaxed">{tool.desc}</span>
+                </span>
+                <Icon
+                  name="ri:arrow-right-up-line"
+                  class="text-muted-foreground group-hover:text-primary mt-1 size-4 shrink-0 transition-colors"
+                />
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="border-border bg-card/60 rounded-2xl border border-dashed p-10 text-center">
+            <Icon name="ri:tools-line" class="text-muted-foreground/50 mx-auto size-9" />
+            <p class="text-foreground mt-3 font-medium">{t(locale, 'tools.emptyTitle')}</p>
+            <p class="text-muted-foreground mt-1 text-sm">{t(locale, 'tools.emptyDesc')}</p>
+          </div>
+        )
+      }
+    </div>
+  </TwoColumnLayout>
+</Layout>
